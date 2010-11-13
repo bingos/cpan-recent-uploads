@@ -35,7 +35,7 @@ sub recent {
   OUTER: while( !$finished ) {
     my $foo = shift @times;
     $finished = 1 if $foo eq $period;
-    my $yaml = Retriever->retrieve( time => $foo, mirror => $mirror );
+    my $yaml = CPAN::Recent::Uploads::Retriever->retrieve( time => $foo, mirror => $mirror );
     my @yaml;
     eval { @yaml = YAML::Syck::Load( $yaml ); };
     croak "Unable to process YAML\n" unless @yaml;
