@@ -16,7 +16,7 @@ sub retrieve {
   my %opts = @_;
   $opts{lc $_} = delete $opts{$_} for keys %opts;
   my $self = bless \%opts, $class;
-  $self->{uri} = URI->new( $self->{mirror} || 'http://cpan.hexten.net/' );
+  $self->{uri} = URI->new( $self->{mirror} || 'http://www.cpan.org/' );
   croak "Unknown scheme\n" 
       unless $self->{uri} and $self->{uri}->scheme and
              $self->{uri}->scheme =~ /^(http|ftp)$/i;
@@ -31,9 +31,9 @@ sub _fetch {
   my $self = shift;
   open my $fooh, '>', \$self->{foo} or die "$!\n";
   my $ua = LWP::UserAgent->new();
-  $ua->get( $self->{uri}->as_string, ':content_cb' => sub { my $data = shift; print {$fooh} $data; } );
+  my $resp = $ua->get( $self->{uri}->as_string, ':content_cb' => sub { my $data = shift; print {$fooh} $data; } );
   close $fooh;
-  return $self->{foo};
+  return $self->{foo} if $resp->is_success;
 }
 
 q[Woof];
