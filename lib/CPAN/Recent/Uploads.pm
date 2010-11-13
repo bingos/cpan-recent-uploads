@@ -29,7 +29,6 @@ sub recent {
       $epoch <= time() and $epoch >= ( time() - $periods{'1Y'} );
   my $period = _period_from_epoch( $epoch );
   my $mirror = shift || $MIRROR;
-  my $path = 'authors';
   my %data;
   my $finished;
   OUTER: while( !$finished ) {
