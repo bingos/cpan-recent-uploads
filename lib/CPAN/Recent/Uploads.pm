@@ -54,7 +54,8 @@ sub recent {
       }
     }
   }
-  # do stuff with %data;
+  return \%data unless wantarray;
+  return sort { $data{$a} <=> $data{$b} } keys %data;
 }
 
 sub _period_from_epoch {
