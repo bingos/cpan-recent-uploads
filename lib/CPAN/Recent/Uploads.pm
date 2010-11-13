@@ -77,6 +77,10 @@ q[Whats uploaded, Doc?];
 
   my @uploads = CPAN::Recent::Uploads->recent( $weekago );
 
+  # as a one liner (seeing the weeks worth of uploads).
+
+  perl -MCPAN::Recent::Uploads -le 'print for CPAN::Recent::Uploads->recent;'
+
 =head1 DESCRIPTION
 
 CPAN::Recent::Uploads provides a mechanism for obtaining a list of the
