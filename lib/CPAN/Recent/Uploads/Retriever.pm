@@ -42,13 +42,26 @@ q[Woof];
 
 =head1 SYNOPSIS
 
+  use CPAN::Recent::Uploads::Retriever;
+
+  my $yamldata = CPAN::Recent::Uploads::Retriever->retrieve();
+
 =head1 DESCRIPTION
+
+CPAN::Recent::Uploads::Retriever is a helper module for L<CPAN::Recent::Uploads> that retrieves
+individual C<RECENT-xx.yaml> files from a CPAN mirror.
 
 =head1 CONSTRUCTOR
 
 =over
 
 =item C<retrieve>
+
+Takes two optional arguments. The first argument is an identifier for the C<RECENT> file to retrieve and
+can be either, C<1h>, C<6h>, C<1d>, C<1W>, C<1M>, C<1Q> or C<1Y>. The default is C<6h>.
+The second argument is a CPAN mirror URL to retrieve said files from.
+
+Returns a scalar of YAML data on success, C<undef> otherwise.
 
 =back
 

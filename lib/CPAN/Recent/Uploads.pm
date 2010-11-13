@@ -71,7 +71,15 @@ q[Whats uploaded, Doc?];
 
 =head1 SYNOPSIS
 
+  use CPAN::Recent::Uploads;
+
+  my $weekago = time() - ( 7 * 24 * 60 * 60 );
+
+  my @uploads = CPAN::Recent::Uploads->recent( $weekago );
+
 =head1 DESCRIPTION
+
+CPAN::Recent::Uploads provides a mechanism for 
 
 =head1 FUNCTIONS
 
