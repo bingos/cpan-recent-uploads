@@ -30,10 +30,8 @@ sub recent {
   my $period = _period_from_epoch( $epoch );
   my $mirror = shift || $MIRROR;
   my %data;
-  my $finished;
-  OUTER: while( !$finished ) {
-    my $foo = shift @times;
-    $finished = 1 if $foo eq $period;
+  OUTER: foreach my $foo ( @times ) {
+    last if $foo eq $period;
     my $yaml = CPAN::Recent::Uploads::Retriever->retrieve( time => $foo, mirror => $mirror );
     my @yaml;
     eval { @yaml = YAML::Syck::Load( $yaml ); };
