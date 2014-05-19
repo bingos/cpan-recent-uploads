@@ -22,6 +22,7 @@ id/A/AD/ADAMK/Test-NeedsDisplay-1.07.tar.gz
 id/A/AD/ADAMK/YAML-Tiny-1.36.meta
 id/A/AD/ADAMK/YAML-Tiny-1.36.readme
 id/A/AD/ADAMK/YAML-Tiny-1.36.tar.gz
+id/J/JO/JONATHAN/Perl6/NativeCall-v1.tar.gz
 );
 
 my $yaml = YAML::Syck::Dump( { recent => [ map { { path => $_, type => 'new', epoch => (time() - (60*20)) } } @data ] } );

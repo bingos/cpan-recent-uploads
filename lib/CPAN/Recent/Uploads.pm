@@ -9,9 +9,9 @@ use YAML::Syck;
 use File::Spec;
 use CPAN::Recent::Uploads::Retriever;
 
-my $MIRROR = 'ftp://ftp.funet.fi/pub/CPAN/';
+my $MIRROR = 'http://www.cpan.org/';
 my @times = qw(1h 6h 1d 1W 1M 1Q 1Y);
-my %periods  = ( 
+my %periods  = (
   '1h' => (60*60),
   '6h' => (60*60*6),
   '1d' => (60*60*24),
@@ -23,7 +23,7 @@ my %periods  = (
 
 sub recent {
   my $epoch = shift;
-  $epoch = shift if $epoch and $epoch->isa(__PACKAGE__);
+  $epoch = shift if $epoch and eval { $epoch->isa(__PACKAGE__) };
   $epoch = ( time() - ( 7 * 24 * 60 * 60 ) )
     unless $epoch and $epoch =~ /^\d+$/ and
       $epoch <= time() and $epoch >= ( time() - $periods{'1Y'} );
@@ -40,13 +40,17 @@ sub recent {
     RECENT: foreach my $recent ( reverse @{ $record->{recent} } ) {
       next RECENT unless $recent->{path} =~ /\.(tar\.gz|tgz|tar\.bz2|zip)$/;
       if ( $recent->{type} eq 'new' ) {
-        ( my $foo = $recent->{path} ) =~ s#^id/##;
+        ( my $bar = $recent->{path} ) =~ s#^id/##;
         next RECENT if $recent->{epoch} < $epoch;
-        $data{ $foo } = $recent->{epoch};
+        {
+          my @parts = split m!/!, $bar;
+          next RECENT if $parts[3] =~ m!Perl6!i;
+        }
+        $data{ $bar } = $recent->{epoch};
       }
       else {
-        ( my $foo = $recent->{path} ) =~ s#^id/##;
-        delete $data{ $foo } if exists $data{ $foo };
+        ( my $bar = $recent->{path} ) =~ s#^id/##;
+        delete $data{ $bar } if exists $data{ $foo };
       }
     }
     last if $foo eq $period;
@@ -92,7 +96,7 @@ on C<CPAN>.
 
 =item C<recent>
 
-Takes two optional arguments. The first argument is an C<epoch> time you wish to 
+Takes two optional arguments. The first argument is an C<epoch> time you wish to
 find the uploads since. If it is not supplied the default is the current time minus
 one week. The second argument is the URL of a C<CPAN> mirror you wish to query. If it
 is not supplied then C<ftp://ftp.funet.fi/pub/CPAN/> is used.
