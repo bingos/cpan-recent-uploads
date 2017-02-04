@@ -99,7 +99,7 @@ on C<CPAN>.
 Takes two optional arguments. The first argument is an C<epoch> time you wish to
 find the uploads since. If it is not supplied the default is the current time minus
 one week. The second argument is the URL of a C<CPAN> mirror you wish to query. If it
-is not supplied then C<ftp://ftp.funet.fi/pub/CPAN/> is used.
+is not supplied then C<http://www.cpan.org/> is used.
 
 In a list context it returns a list of uploaded distributions ordered by the time they were
 uploaded (ie. oldest first, increasing in recentness ).
