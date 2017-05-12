@@ -17,11 +17,11 @@ sub retrieve {
   $opts{lc $_} = delete $opts{$_} for keys %opts;
   my $self = bless \%opts, $class;
   $self->{uri} = URI->new( $self->{mirror} || 'http://www.cpan.org/' );
-  croak "Unknown scheme\n" 
+  croak "Unknown scheme\n"
       unless $self->{uri} and $self->{uri}->scheme and
              $self->{uri}->scheme =~ /^(http|ftp)$/i;
-  $self->{time} = '6h' 
-      unless $self->{time} 
+  $self->{time} = '6h'
+      unless $self->{time}
          and grep { $_ eq $self->{time} } @times;
   $self->{uri}->path( File::Spec::Unix->catfile( $self->{uri}->path, 'authors', 'RECENT-' . $self->{time} . '.yaml' ) );
   return $self->_fetch();

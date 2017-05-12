@@ -5,7 +5,7 @@ package CPAN::Recent::Uploads;
 use strict;
 use warnings;
 use Carp;
-use YAML::Syck;
+use YAML::XS ();
 use File::Spec;
 use CPAN::Recent::Uploads::Retriever;
 
@@ -33,7 +33,7 @@ sub recent {
   OUTER: foreach my $foo ( @times ) {
     my $yaml = CPAN::Recent::Uploads::Retriever->retrieve( time => $foo, mirror => $mirror );
     my @yaml;
-    eval { @yaml = YAML::Syck::Load( $yaml ); };
+    eval { @yaml = YAML::XS::Load( $yaml ); };
     croak "Unable to process YAML\n" unless @yaml;
     my $record = shift @yaml;
     die unless $record;
